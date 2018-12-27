@@ -2,7 +2,7 @@
 #powershell uses tls 1.0 by default so force it to use tls 1.2
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 
-$repo="SimpleSQLServerSourceControl"
+$repo=""
 $url="https://github.com/austineric/$repo/archive/master.zip"
 $destination="C:$env:HOMEPATH\Documents"
 
