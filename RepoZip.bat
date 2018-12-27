@@ -1,1 +1,1 @@
-powershell.exe -ExecutionPolicy Bypass -File ".\DownloadZip.ps1"
+powershell.exe -ExecutionPolicy Bypass -File ".\RepoZip.ps1"
