@@ -2,20 +2,16 @@
 #powershell uses tls 1.0 by default so force it to use tls 1.2
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 
+$username="USERNAME HERE"
 $destination="C:$env:HOMEPATH\Documents"
-$methodarray=@("GitHub URL","Repo name")
 
-$methodarray | Out-GridView -OutputMode Single -Title "Choose a method" | ForEach {
-    $method=$_
-}
-
-If ($method -eq "GitHub URL") {
+[int]$method=Read-Host "Enter 1 to use a GitHub URL or 2 to use a GitHub repo name."
+If ($method -eq 1) {
     $url=Read-Host "Enter GitHub URL"
     $repo=@($url.Split("/"))[-1]
     $url="$url/archive/master.zip"
 }
-If ($method -eq "Repo name") {
-    $username="USERNAME HERE"
+Elseif ($method -eq 2) {
     If ($username="Username here") {
         Write-Host 'Please add GitHub username to the RepoZip.ps1 file where it says "USERNAME HERE". Exiting now.'
         Pause
@@ -24,7 +20,11 @@ If ($method -eq "Repo name") {
     Else {
         $repo=Read-Host "Enter repo name"
         $url="https://github.com/$username/$repo/archive/master.zip"
-    }
+    }    
+}
+Else {Write-Host "Invalid response. Exiting now."
+        Pause
+        Exit
 }
 
 
