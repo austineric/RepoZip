@@ -2,10 +2,31 @@
 #powershell uses tls 1.0 by default so force it to use tls 1.2
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 
-Clear-Host
-$repo=Read-Host "Enter repo name"
-$url="https://github.com/austineric/$repo/archive/master.zip"
 $destination="C:$env:HOMEPATH\Documents"
+$methodarray=@("GitHub URL","Repo name")
+
+$methodarray | Out-GridView -OutputMode Single -Title "Choose a method" | ForEach {
+    $method=$_
+}
+
+If ($method -eq "GitHub URL") {
+    $url=Read-Host "Enter GitHub URL"
+    $repo=@($url.Split("/"))[-1]
+    $url="$url/archive/master.zip"
+}
+If ($method -eq "Repo name") {
+    $username="USERNAME HERE"
+    If ($username="Username here") {
+        Write-Host 'Please add GitHub username to the RepoZip.ps1 file where it says "USERNAME HERE". Exiting now.'
+        Pause
+        Exit
+    }
+    Else {
+        $repo=Read-Host "Enter repo name"
+        $url="https://github.com/$username/$repo/archive/master.zip"
+    }
+}
+
 
 If (Test-Path $destination\$repo) {
     Clear-Host
@@ -34,7 +55,7 @@ Try {
     Exit
 }
 Catch {
-    Write-Host "Download failed. Ensure the repo name is entered correctly and try again."
+    Write-Host "Download failed. Ensure the repo name or URL is entered correctly and try again."
     Pause
     Exit
 }
