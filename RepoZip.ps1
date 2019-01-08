@@ -57,7 +57,7 @@ Try {
     Exit
 }
 Catch {
-    Write-Host "Download failed. Ensure the repo name or URL is entered correctly and try again."
+    Write-Host "Download failed. Ensure the repo name or URL is entered correctly and the repo is not set to private and try again."
     Pause
     Exit
 }
