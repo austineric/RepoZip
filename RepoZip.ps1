@@ -14,7 +14,7 @@ If ($method -eq 1) {
     $url="$url/archive/master.zip"
 }
 Elseif ($method -eq 2) {
-    If ($username="Username here") {
+    If ($username -eq "Username here") {
         Write-Host 'Please add GitHub username to the RepoZip.ps1 file where it says "USERNAME HERE". Exiting now.'
         Pause
         Exit
