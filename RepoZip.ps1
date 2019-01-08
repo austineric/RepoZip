@@ -5,6 +5,8 @@
 $username="USERNAME HERE"
 $destination="C:$env:HOMEPATH\Documents"
 
+Clear-Host
+
 [int]$method=Read-Host "Enter 1 to use a GitHub URL or 2 to use a GitHub repo name."
 If ($method -eq 1) {
     $url=Read-Host "Enter GitHub URL"
