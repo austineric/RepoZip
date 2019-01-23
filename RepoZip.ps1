@@ -14,13 +14,14 @@ Clear-Host
 #GitHub URL: https://github.com/austineric/RepoZip
 #Clone or download URL: https://github.com/austineric/RepoZip.git
 
-[string]$response=Read-Host "Enter Github repo name or URL."
+[string]$response=Read-Host "Enter repo name or GitHub URL."
 
 #clone or download URL
 If ($response -like "*github.com*.git") {
     
     #remove .git
     $url=$response.Replace(".git","")
+    $url=$url + "/archive/master.zip"
 
     #split the url entered by the forward slash into an array, get the last value in the array, and remove the .git
     $repo=@($url.Split("/"))[-1]
@@ -30,7 +31,7 @@ If ($response -like "*github.com*.git") {
 #github URL
 Elseif ($response -like "*github.com*") {
 
-    $url=$response
+    $url=$response + "/archive/master.zip"
 
     #split the url entered by the forward slash into an array and get the last value in the array
     $repo=@($url.Split("/"))[-1]
@@ -39,10 +40,15 @@ Elseif ($response -like "*github.com*") {
 #repo name
 Else {
     
-    $repo=$response
+    If ($response -eq "") {
+        Write-Host "Invalid entry. Exiting now."
+        Pause
+        Exit
+        }
+    Else {$repo=$response}
 
     #prompt for username if it hasn't been hardcoded
-    If ($username -eq "Username here") {
+    If ($username -eq "USERNAME HERE") {
         Write-Host 'It appears you have entered a repo name. Enter the GitHub username for the repo (ie austineric is the username for https://github.com/austineric/RepoZip). To hard-code a username, close this window and add the username to the RepoZip.ps1 file where it says "USERNAME HERE".'
         $username=Read-Host "Enter username"
         If ($username -eq "") {
