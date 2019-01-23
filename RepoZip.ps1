@@ -29,7 +29,7 @@ Else {Write-Host "Invalid response. Exiting now."
         Exit
 }
 
-
+#check if destination directory already exists
 If (Test-Path $destination\$repo) {
     Clear-Host
     $response=Read-Host "The destination $destination\$repo already exists. Delete and replace? (y/n)"
@@ -47,11 +47,17 @@ If (Test-Path $destination\$repo) {
     }
 }
 
+#retrieve the zip file
 Try {
     Invoke-WebRequest -Uri $url -OutFile "$destination\$repo.zip"
     Expand-Archive -Path "$destination\$repo.zip" -DestinationPath $destination
     Remove-Item "$destination\$repo.zip"
     Rename-Item -Path "$destination\$repo-master" -NewName $repo
+    
+    #remove .gitignore, .gitattributes, etc, and README.md
+    Remove-Item -Path "$destination\$repo\*.git*"
+    Remove-Item -Path "$destination\$repo\README.md"
+    
     Write-Host "Completed."
     Pause
     Exit
