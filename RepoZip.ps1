@@ -7,6 +7,43 @@ $destination="C:$env:HOMEPATH\Documents"
 
 Clear-Host
 
+#need the repo name (and if only repo name was entered then also need user name)
+
+#handle three entry types:
+#repo name: RepoZip
+#GitHub URL: https://github.com/austineric/RepoZip
+#Clone or download URL: https://github.com/austineric/RepoZip.git
+
+[string]$response=Read-Host "Enter Github repo name or URL."
+
+#clone or download URL
+If ($response -like "*github.com*.git") {
+    #split the url entered by the forward slash into an array, get the last value in the array, and remove the .git
+    $repo=@($url.Split("/"))[-1]
+    $repo=$repo.Replace(".git","")
+    }
+
+#github URL
+Elseif ($response -like "*github.com*") {
+    #split the url entered by the forward slash into an array and get the last value in the array
+    $repo=@($url.Split("/"))[-1]
+    }
+
+#repo name
+Else {
+    Write-Host 'It appears you have entered a repo name. To retrieve a repo by name please enter the GitHub username for the repo (ie austineric is the username for RepoZip) To hard-code a username,
+    close this window and add the username to the RepoZip.ps1 file where it says "USERNAME HERE".'
+    $username=Read-Host "Enter username"
+        If ($username -eq "") {
+            Write-Host "Invalid entry. Exiting now."
+            Pause
+            Exit
+            }
+    }
+
+
+
+
 [int]$method=Read-Host "Enter 1 to use a GitHub URL or 2 to use a GitHub repo name."
 If ($method -eq 1) {
     $url=Read-Host "Enter GitHub URL"
