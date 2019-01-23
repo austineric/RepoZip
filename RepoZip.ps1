@@ -18,6 +18,10 @@ Clear-Host
 
 #clone or download URL
 If ($response -like "*github.com*.git") {
+    
+    #remove .git
+    $url=$response.Replace(".git","")
+
     #split the url entered by the forward slash into an array, get the last value in the array, and remove the .git
     $repo=@($url.Split("/"))[-1]
     $repo=$repo.Replace(".git","")
@@ -25,22 +29,34 @@ If ($response -like "*github.com*.git") {
 
 #github URL
 Elseif ($response -like "*github.com*") {
+
+    $url=$response
+
     #split the url entered by the forward slash into an array and get the last value in the array
     $repo=@($url.Split("/"))[-1]
     }
 
 #repo name
 Else {
-    Write-Host 'It appears you have entered a repo name. To retrieve a repo by name please enter the GitHub username for the repo (ie austineric is the username for RepoZip) To hard-code a username,
-    close this window and add the username to the RepoZip.ps1 file where it says "USERNAME HERE".'
-    $username=Read-Host "Enter username"
+    
+    $repo=$response
+
+    #prompt for username if it hasn't been hardcoded
+    If ($username -eq "Username here") {
+        Write-Host 'It appears you have entered a repo name. Enter the GitHub username for the repo (ie austineric is the username for https://github.com/austineric/RepoZip). To hard-code a username, close this window and add the username to the RepoZip.ps1 file where it says "USERNAME HERE".'
+        $username=Read-Host "Enter username"
         If ($username -eq "") {
             Write-Host "Invalid entry. Exiting now."
             Pause
             Exit
-            }
+            }  
+        Else {
+            $url="https://github.com/$username/$repo/archive/master.zip"
+            }      
+        }
     }
 
+Write-Host $url
 
 
 
